@@ -1,0 +1,38 @@
+So this is my plan for the app.
+
+Install the following libraries:
+- express, for the express app
+- ejs, to manage ejs views
+- psql, for the postgres database handler
+- prisma, the ORM for the database
+
+And then some other things I need to install, or require in my express app.
+
+- node:path, to ensure...I don't even know what this does.
+
+- dotenv, to use variables from my env file
+- urlencoded, app.use(express.urlencoded({ extended: false })), - the functionality that allows you to parse data from the url
+- locals middleware that allows you to insert the user into a locally accessible variable.
+- the functionality that allows you to run the program from a script 
+
+How do I also get the default package.json file....
+
+In my app I will also insert routes, controller middleware, repositories to query the database and other modules for services, authorisation, authentication etc.
+
+SET UP REPO
+- create repo on github and select 'node' option for gitignore'
+- clone repo to local machine
+
+SET UP DB
+- create database in psql "CREATE DATABASE database_name OWNER dev_user"
+
+SET UP EXPRESS APP
+- run 'npm init -y' to create package.json, config file
+- run 'npm install express' to install express
+- create app.js file
+- run from script, insert '    "start": "node --watch app.js" in the script of package and use 'npm start' to run your app
+
+SET UP PRISMA
+- install prisma with the modified instructions from Odin
+https://www.theodinproject.com/lessons/nodejs-prisma-orm
+- installs prisma, prisma client, pg postgres driver and dotenv for loading env variables

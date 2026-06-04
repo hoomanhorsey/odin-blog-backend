@@ -1,0 +1,28 @@
+- User {
+id Int @id @default(autoincrement()) 
+name String @unique
+email String @unique
+dateCreated DateTime @default(now())
+posts Post[]
+}
+
+- Post {
+id Int @id @default(autoincrement()) 
+title String
+content String
+dateCreated DateTime @default(now())
+published Boolean @default(false)
+datePublished DateTime?
+author User  @relation(fields: [authorId], references: [id]) 
+authorId Int
+comments Comment[]
+}
+
+- Comment {
+id Int @id @default(autoincrement()) 
+content String
+dateCreated DateTime @default(now())
+approved Boolean @default(false)
+author User @relation(fields: [authorId], references: [id]) 
+authorId Int
+}
