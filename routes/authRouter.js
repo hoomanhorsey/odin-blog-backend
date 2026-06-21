@@ -1,22 +1,26 @@
-// insert code for authRouter
-
 const { Router } = require("express");
 const authRouter = Router();
 
+// Validation
+const userValidator = require("../validators/userValidator");
+
+// Controllers
 const authController = require("../controllers/authController");
 
-authRouter.get("/login", authController.displayLogin);
-authRouter.post("/login", (req, res) => {
-  console.log("login post placeholder");
-});
+authRouter.post(
+  "/login",
+  userValidator.validateLogin,
+  authController.handleLogin,
+);
+authRouter.post(
+  "/signup",
+  userValidator.validateSignup,
+  authController.handleSignup,
+);
+authRouter.post("/logout", authController.handleLogout);
 
-authRouter.get("/signup", authController.displaySignup);
-authRouter.post("/signup", (req, res) => {
-  console.log("signup post placeholder");
-});
-
-authRouter.post("/logout", (req, res) => {
-  console.log("logout post placeholder");
-});
+// TODO - Determine if GET routes are needed for front end
+// authRouter.get("/login", authController.displayLogin);
+// authRouter.get("/signup", authController.displaySignup);
 
 module.exports = authRouter;

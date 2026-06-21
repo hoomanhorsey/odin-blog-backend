@@ -1,0 +1,28 @@
+================================================================================
+TASK AND ROLE ACCESS MATRIX
+================================================================================
+
+Task                              | Owner | Admin | Moderator | Commentor
+----------------------------------|-------|-------|-----------|----------
+Post blog posts                   |   ✓   |   ✓   |     ✗     |    ✗
+Edit blog posts                   |   ✓   |   ✓   |     ✗     |    ✗
+Delete blog posts                 |   ✓   |   ✓   |     ✗     |    ✗
+Publish blogs                      |   ✓   |   ✓   |     ✗     |    ✗
+Post comments                      |   ✓   |   ✓   |     ✓     |    ✓
+Edit comments                      |   ✓   |   ✓   |     ✓     |    ✓*
+Approve/publish comments          |   ✓   |   ✓   |     ✓     |    ✗
+Delete comments                    |   ✓   |   ✓   |     ✓     |    ✗
+Delete users                       |   ✓   |   ✗   |     ✗     |    ✗
+View user analytics               |   ✓   |   ✓   |     ✗     |    ✗
+Manage user roles                  |   ✓   |   ✗   |     ✗     |    ✗
+Ban/suspend users                 |   ✓   |   ✓   |     ✗     |    ✗
+Edit site settings                |   ✓   |   ✓   |     ✗     |    ✗
+Flag inappropriate content        |   ✓   |   ✓   |     ✓     |    ✓
+View flagged content queue        |   ✓   |   ✓   |     ✓     |    ✗
+Create categories/tags            |   ✓   |   ✓   |     ✗     |    ✗
+Manage media library              |   ✓   |   ✓   |     ✗     |    ✗
+View audit logs                    |   ✓   |   ✓   |     ✗     |    ✗
+
+================================================================================
+* Commentors can only edit their own comments
+================================================================================

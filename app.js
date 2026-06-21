@@ -3,9 +3,15 @@
 const express = require("express");
 const app = express();
 
+// Validation
+const { body, validationResult } = require("express-validator");
+
 // Route imports
 const authRouter = require("./routes/authRouter");
 const postsRouter = require("./routes/postsRouter");
+
+app.use(express.json()); // Add this line if missing
+app.use(express.urlencoded({ extended: true }));
 
 // Route mounting
 app.use("/auth", authRouter);

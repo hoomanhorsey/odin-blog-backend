@@ -1,27 +1,112 @@
-function displayPosts() {
+const postsRepository = require("../repositories/postsRepository");
+
+// Validation
+const { validationResult } = require("express-validator");
+
+async function getAllPosts(req, res) {
   console.log("display posts placeholder function");
+  try {
+    const allPosts = await postsRepository.getAllPosts();
+    res.json(allPosts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
 }
 
-function createPosts() {
+async function createPosts(req, res) {
   console.log("placedholder for subvmitting posts ");
+
+  // console.log("user is " + req.user.userId);
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   console.log(errors);
+  //   return res.status(400).json({ errors: errors.array() });
+  // }
+
+  try {
+    console.table(req.user);
+    console.table(req.body);
+    await postsRepository.createPost(req.body, req.user);
+
+    res.json("placeholder for creating posts");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
 }
 
-function displayPost() {
-  console.log("placedholder for display a post ");
+async function getPost(req, res) {
+  console.log("Looking at post ID: " + req.params.id);
+
+  try {
+    const post = await postsRepository.getPost(parseInt(req.params.id));
+    console.table(post.content);
+    res.send(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
 }
 
-function updatePost() {
+async function updatePost(req, res) {
   console.log("placedholder for updating posts ");
+
+  try {
+    const updatedPost = await postsRepository.updatePost(
+      parseInt(req.params.id),
+      req.body,
+    );
+    res.json({ message: "placeholder for updating a post", post: updatedPost });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
 }
 
-function deletePost() {
+async function publishPost(req, res) {
+  try {
+    const publishedPost = await postsRepository.publishPost(req.params.id);
+    res.json({ message: "post published", post: publishedPost });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
+}
+
+async function unpublishPost(req, res) {
+  try {
+    const publishedPost = await postsRepository.unpublishPost(req.params.id);
+    res.json({ message: "post unpublished", post: publishedPost });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
+}
+async function unarchivePost(req, res) {
+  try {
+    const publishedPost = await postsRepository.unarchivePost(req.params.id);
+    res.json({ message: "post unarchived", post: publishedPost });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
+}
+async function deletePost() {
   console.log("placedholder for deleting posts ");
+
+  try {
+    const archivedPost = await postsRepository.archivePost(req.params.id);
+    res.json({ message: "post archived", post: publishedPost });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
 }
 
 module.exports = {
-  displayPosts,
+  getAllPosts,
   createPosts,
-  displayPost,
+  getPost,
   updatePost,
+  publishPost,
+  unpublishPost,
+  unarchivePost,
   deletePost,
 };

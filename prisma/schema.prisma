@@ -12,11 +12,22 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  OWNER
+  ADMIN
+  MODERATOR
+  COMMENTOR
+}
 
 model User {
   id Int @id @default(autoincrement()) 
-  name String @unique
+  username String @unique
   email String @unique
+  password String
+  role Role @default(COMMENTOR)  // role must be one of the three options
+  isSuspended Boolean @default(false)
+  suspensionDate DateTime?
+  suspensionReason String?
   dateCreated DateTime @default(now())
   posts Post[]
   comments Comment[]
@@ -29,9 +40,25 @@ model Post {
   dateCreated DateTime @default(now())
   published Boolean @default(false)
   datePublished DateTime?
+  archived Boolean @default(false)
   author User  @relation(fields: [authorId], references: [id]) 
   authorId Int
+  tags PostTag[]
   comments Comment[]
+}
+
+model Tag {
+  id Int @id @default(autoincrement())
+  name String @unique
+  posts PostTag[]
+}
+
+model PostTag {
+  postId Int
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tagId Int
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@id([postId, tagId])  // One row per post-tag pair
 }
 
 model Comment {
@@ -41,6 +68,6 @@ model Comment {
   approved Boolean @default(false)
   author User @relation(fields: [authorId], references: [id]) 
   authorId Int
-  post Post @relation(fields: [postId], references: [id]) 
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade) 
   postId Int
 }

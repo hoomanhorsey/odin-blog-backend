@@ -4,14 +4,62 @@ const { Router } = require("express");
 const postsRouter = Router();
 
 const postsController = require("../controllers/postsController");
+const verifyToken = require("../middleware/verifyToken.js");
+const requireRole = require("../middleware/requireRole.js");
 
-postsRouter.get("/", postsController.displayPosts);
-postsRouter.post("/", postsController.createPosts);
+// GET /posts/create — displays the form for creating a post(frontend concern)
 
-postsRouter.get("/:id", postsController.displayPost);
+// GET ROUTES
+postsRouter.get("/", postsController.getAllPosts);
+postsRouter.get("/:id", postsController.getPost);
+postsRouter.get(
+  "/:id/edit",
+  verifyToken.verifyToken,
+  requireRole.requireRole("OWNER", "ADMIN"),
+  postsController.getPost,
+);
 
-postsRouter.put("/:id", postsController.updatePost);
+// POST ROUTES
+postsRouter.post(
+  "/",
+  verifyToken.verifyToken,
+  requireRole.requireRole("OWNER", "ADMIN"),
+  postsController.createPosts,
+);
 
-postsRouter.delete("/:id", postsController.deletePost);
+// PUT ROUTES
+postsRouter.put(
+  "/:id",
+  verifyToken.verifyToken,
+  requireRole.requireRole("OWNER", "ADMIN"),
+  postsController.updatePost,
+);
+
+postsRouter.put(
+  "/id/publish",
+  verifyToken.verifyToken,
+  requireRole.requireRole("OWNER", "ADMIN"),
+  postsController.publishPost,
+);
+postsRouter.put(
+  "/id/unpublish",
+  verifyToken.verifyToken,
+  requireRole.requireRole("OWNER", "ADMIN"),
+  postsController.unpublishPost,
+);
+postsRouter.put(
+  "/id/unarchive",
+  verifyToken.verifyToken,
+  requireRole.requireRole("OWNER", "ADMIN"),
+  postsController.unarchivePost,
+);
+
+// DELETE ROUTES
+postsRouter.delete(
+  "/:id",
+  verifyToken.verifyToken,
+  requireRole.requireRole("OWNER", "ADMIN"),
+  postsController.deletePost,
+);
 
 module.exports = postsRouter;

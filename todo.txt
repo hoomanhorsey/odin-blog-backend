@@ -1,0 +1,22 @@
+- end point POST /posts allows me to upload a blog post, provided my user has passed the verify token function.
+What does the verify token actually achieve?
+    - the user is given a token when they login that is unique to their name and password and the token secret.
+    - when the user POSTS someting to the /post endpoint the app checkes that the user is verified.  If they are not, they will not be able to update their post.
+    - the app now verifies role (owner, admin or commentor) via the requiredRole middleware.AI tells me to filter/exclude non qualifying users at the route/middleware level.  The principle seems to be to do things earlier, rather than wait for it to be processed at the controller stage.
+
+    Now I have the requiredRole check I can filter the following actions:
+        - post blog posts
+        - edit blog posts
+        - delete blog posts
+        - publish blogs
+        - post comments
+        - edit comments
+        - approve/publish comments
+        - delete comments
+        - delete users
+    
+    I can now create posts, and they are saved on the database with tags. I now need to create endpoints to:
+    - edit blog
+    - edit tags
+    - delete blog.
+
