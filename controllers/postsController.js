@@ -3,11 +3,21 @@ const postsRepository = require("../repositories/postsRepository");
 // Validation
 const { validationResult } = require("express-validator");
 
-async function getAllPosts(req, res) {
+async function getAllPostsAdmin(req, res) {
   console.log("display posts placeholder function");
   try {
-    const allPosts = await postsRepository.getAllPosts();
+    const allPosts = await postsRepository.getAllPostsAdmin();
     res.json(allPosts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong please try again" });
+  }
+}
+async function getAllActivePosts(req, res) {
+  console.log("display posts placeholder function");
+  try {
+    const allActivePosts = await postsRepository.getAllActivePosts();
+    res.json(allActivePosts);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong please try again" });
@@ -66,7 +76,10 @@ async function updatePost(req, res) {
 
 async function publishPost(req, res) {
   try {
-    const publishedPost = await postsRepository.publishPost(req.params.id);
+    console.log("yo publishpost is called");
+    const publishedPost = await postsRepository.publishPost(
+      parseInt(req.params.id),
+    );
     res.json({ message: "post published", post: publishedPost });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong please try again" });
@@ -75,7 +88,9 @@ async function publishPost(req, res) {
 
 async function unpublishPost(req, res) {
   try {
-    const publishedPost = await postsRepository.unpublishPost(req.params.id);
+    const publishedPost = await postsRepository.unpublishPost(
+      parseInt(req.params.id),
+    );
     res.json({ message: "post unpublished", post: publishedPost });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong please try again" });
@@ -83,17 +98,21 @@ async function unpublishPost(req, res) {
 }
 async function unarchivePost(req, res) {
   try {
-    const publishedPost = await postsRepository.unarchivePost(req.params.id);
+    const publishedPost = await postsRepository.unarchivePost(
+      parseInt(req.params.id),
+    );
     res.json({ message: "post unarchived", post: publishedPost });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong please try again" });
   }
 }
-async function deletePost() {
+async function archivePost(req, res) {
   console.log("placedholder for deleting posts ");
 
   try {
-    const archivedPost = await postsRepository.archivePost(req.params.id);
+    const archivedPost = await postsRepository.archivePost(
+      parseInt(req.params.id),
+    );
     res.json({ message: "post archived", post: publishedPost });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong please try again" });
@@ -101,12 +120,13 @@ async function deletePost() {
 }
 
 module.exports = {
-  getAllPosts,
+  getAllPostsAdmin,
+  getAllActivePosts,
   createPosts,
   getPost,
   updatePost,
   publishPost,
   unpublishPost,
   unarchivePost,
-  deletePost,
+  archivePost,
 };

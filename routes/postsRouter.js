@@ -10,7 +10,13 @@ const requireRole = require("../middleware/requireRole.js");
 // GET /posts/create — displays the form for creating a post(frontend concern)
 
 // GET ROUTES
-postsRouter.get("/", postsController.getAllPosts);
+postsRouter.get(
+  "/all",
+  verifyToken.verifyToken,
+  requireRole.requireRole("OWNER", "ADMIN"),
+  postsController.getAllPostsAdmin,
+);
+postsRouter.get("/", postsController.getAllActivePosts);
 postsRouter.get("/:id", postsController.getPost);
 postsRouter.get(
   "/:id/edit",
@@ -36,19 +42,19 @@ postsRouter.put(
 );
 
 postsRouter.put(
-  "/id/publish",
+  "/:id/publish",
   verifyToken.verifyToken,
   requireRole.requireRole("OWNER", "ADMIN"),
   postsController.publishPost,
 );
 postsRouter.put(
-  "/id/unpublish",
+  "/:id/unpublish",
   verifyToken.verifyToken,
   requireRole.requireRole("OWNER", "ADMIN"),
   postsController.unpublishPost,
 );
 postsRouter.put(
-  "/id/unarchive",
+  "/:id/unarchive",
   verifyToken.verifyToken,
   requireRole.requireRole("OWNER", "ADMIN"),
   postsController.unarchivePost,
@@ -59,7 +65,7 @@ postsRouter.delete(
   "/:id",
   verifyToken.verifyToken,
   requireRole.requireRole("OWNER", "ADMIN"),
-  postsController.deletePost,
+  postsController.archivePost,
 );
 
 module.exports = postsRouter;

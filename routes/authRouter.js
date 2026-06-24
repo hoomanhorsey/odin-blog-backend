@@ -4,6 +4,8 @@ const authRouter = Router();
 // Validation
 const userValidator = require("../validators/userValidator");
 
+const verifyToken = require("../middleware/verifyToken.js");
+
 // Controllers
 const authController = require("../controllers/authController");
 
@@ -17,7 +19,11 @@ authRouter.post(
   userValidator.validateSignup,
   authController.handleSignup,
 );
-authRouter.post("/logout", authController.handleLogout);
+authRouter.post(
+  "/logout",
+  verifyToken.verifyToken,
+  authController.handleLogout,
+);
 
 // TODO - Determine if GET routes are needed for front end
 // authRouter.get("/login", authController.displayLogin);

@@ -1,6 +1,16 @@
 const { prisma } = require("../lib/prisma");
 
-async function getAllPosts() {
+async function getAllPostsAdmin() {
+  console.log("calling get all posts query");
+  try {
+    const allPosts = await prisma.post.findMany({});
+    return allPosts;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+async function getAllActivePosts() {
   console.log("calling get all posts query");
   try {
     const allPosts = await prisma.post.findMany({
@@ -109,6 +119,7 @@ async function publishPost(postId) {
       where: { id: postId },
       data: {
         published: true,
+        datePublished: new Date(),
       },
     });
     return publishedPost;
@@ -146,28 +157,30 @@ async function unarchivePost(postId) {
     throw error;
   }
 }
-async function deletePost(postId) {
+async function archivePost(postId) {
   try {
-    const archivedPost = await prisma.posts.update({
+    console.log("delete post function, and postID" + postId);
+    const archivedPost = await prisma.post.update({
       where: {
         id: postId,
-        data: { archived: true },
       },
+      data: { archived: true },
     });
     return archivedPost;
   } catch (error) {
-    console.error(error);
+    console.error("oh no error" + error);
     throw error;
   }
 }
 
 module.exports = {
-  getAllPosts,
+  getAllPostsAdmin,
+  getAllActivePosts,
   getPost,
   createPost,
   updatePost,
   publishPost,
   unpublishPost,
   unarchivePost,
-  deletePost,
+  archivePost,
 };
