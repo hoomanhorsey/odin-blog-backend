@@ -17,6 +17,9 @@ What does the verify token actually achieve?
     
     I can now create posts, and they are saved on the database with tags. I now need to create endpoints to:
     - edit blog
-    - edit tags
-    - delete blog.
+    - publish post
+    - unpublish post
+    - edit post (including edit tags)
+    - delete/archive post.
+    
 
