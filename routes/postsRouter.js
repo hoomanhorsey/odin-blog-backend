@@ -4,6 +4,7 @@ const { Router } = require("express");
 const postsRouter = Router();
 
 const postsController = require("../controllers/postsController");
+const commentsController = require("../controllers/commentsController");
 const verifyToken = require("../middleware/verifyToken.js");
 const requireRole = require("../middleware/requireRole.js");
 
@@ -31,6 +32,11 @@ postsRouter.post(
   verifyToken.verifyToken,
   requireRole.requireRole("OWNER", "ADMIN"),
   postsController.createPosts,
+);
+postsRouter.post(
+  "/:postId/comments",
+  verifyToken.verifyToken,
+  commentsController.createComment,
 );
 
 // PUT ROUTES
@@ -66,6 +72,12 @@ postsRouter.delete(
   verifyToken.verifyToken,
   requireRole.requireRole("OWNER", "ADMIN"),
   postsController.archivePost,
+);
+
+postsRouter.delete(
+  "/:postId/comments/:commentId",
+  verifyToken.verifyToken,
+  commentsController.deleteComment,
 );
 
 module.exports = postsRouter;

@@ -25,20 +25,8 @@ async function getAllActivePosts(req, res) {
 }
 
 async function createPosts(req, res) {
-  console.log("placedholder for subvmitting posts ");
-
-  // console.log("user is " + req.user.userId);
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   console.log(errors);
-  //   return res.status(400).json({ errors: errors.array() });
-  // }
-
   try {
-    console.table(req.user);
-    console.table(req.body);
     await postsRepository.createPost(req.body, req.user);
-
     res.json("placeholder for creating posts");
   } catch (error) {
     console.error(error);
@@ -48,7 +36,6 @@ async function createPosts(req, res) {
 
 async function getPost(req, res) {
   console.log("Looking at post ID: " + req.params.id);
-
   try {
     const post = await postsRepository.getPost(parseInt(req.params.id));
     console.table(post.content);
@@ -107,13 +94,11 @@ async function unarchivePost(req, res) {
   }
 }
 async function archivePost(req, res) {
-  console.log("placedholder for deleting posts ");
-
   try {
     const archivedPost = await postsRepository.archivePost(
       parseInt(req.params.id),
     );
-    res.json({ message: "post archived", post: publishedPost });
+    res.json({ message: "post archived", post: archivedPost });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong please try again" });
   }

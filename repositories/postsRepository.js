@@ -3,8 +3,11 @@ const { prisma } = require("../lib/prisma");
 async function getAllPostsAdmin() {
   console.log("calling get all posts query");
   try {
-    const allPosts = await prisma.post.findMany({});
-    return allPosts;
+    const allPosts = await prisma.post.findMany({
+      include: { tags: { include: { tag: true } } },
+    });
+
+    return allPostßs;
   } catch (error) {
     console.error(error);
     throw error;
@@ -18,6 +21,7 @@ async function getAllActivePosts() {
         published: true,
         archived: false,
       },
+      include: { tags: { include: { tag: true } } },
     });
     return allPosts;
   } catch (error) {
@@ -32,7 +36,15 @@ async function getPost(postId) {
       postId,
   );
   try {
-    const post = await prisma.post.findUnique({ where: { id: postId } });
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        tags: { include: { tag: true } },
+        comments: {
+          include: { author: true },
+        },
+      },
+    });
     return post;
   } catch (error) {
     console.error(error);
